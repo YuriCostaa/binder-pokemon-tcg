@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Binder Master Set · Zeraora &amp; Meowth</title>
+<meta name="description" content="Binder digital para acompanhar a coleção de cartas Pokémon TCG do Zeraora e do Meowth em português.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: a leather binder holding two facing 2x2 sleeve pages; controls on a strip above. */
+:root {
+  --bg: #e9e6ef;
+  --ink: #1d1a26;
+  --muted: #625c72;
+  --binder: #2b2638;
+  --binder-edge: #1c1826;
+  --page: #f7f5fa;
+  --pocket: #ece9f2;
+  --pocket-line: #d2cddd;
+  --zap: #f2c230;      /* Zeraora electric yellow */
+  --zap-ink: #5a4300;
+  --coin: #c98a1b;     /* Meowth charm coin */
+  --ok: #1f8a5b;
+  --ok-bg: #d8f1e5;
+  --warn: #9a5b00;
+  --warn-bg: #fdecc8;
+  --font-display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #14121b; --ink: #ece9f4; --muted: #a39cb6; --binder: #2a2538; --binder-edge: #0d0b13;
+  --page: #1e1b28; --pocket: #262232; --pocket-line: #3a3449; --zap: #f5cb45; --zap-ink: #2b2000;
+  --coin: #e0a53c; --ok: #4fd39a; --ok-bg: #173a2c; --warn: #f2b860; --warn-bg: #3b2a10; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #14121b; --ink: #ece9f4; --muted: #a39cb6; --binder: #2a2538; --binder-edge: #0d0b13;
+  --page: #1e1b28; --pocket: #262232; --pocket-line: #3a3449; --zap: #f5cb45; --zap-ink: #2b2000;
+  --coin: #e0a53c; --ok: #4fd39a; --ok-bg: #173a2c; --warn: #f2b860; --warn-bg: #3b2a10; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px; }
+
+header { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: end; justify-content: space-between; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4vw, 38px); line-height: 1.05; margin: 0; letter-spacing: .01em; text-wrap: balance; }
+h1 .z { color: var(--zap); -webkit-text-stroke: 1px var(--zap-ink); paint-order: stroke; }
+h1 .m { color: var(--coin); }
+.sub { color: var(--muted); margin: 6px 0 0; max-width: 60ch; }
+
+.stats { display: flex; gap: 20px; flex-wrap: wrap; }
+.stat { min-width: 150px; display: grid; gap: 6px; }
+.stat .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+.stat .val { font-family: var(--font-display); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .val small { font-size: 13px; color: var(--muted); font-weight: 500; }
+.bar { height: 6px; background: var(--pocket-line); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); border-radius: 3px; transition: width .3s; }
+.stat.z .bar i { background: var(--zap); }
+.stat.m .bar i { background: var(--coin); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.seg { display: inline-flex; background: var(--pocket); border: 1px solid var(--pocket-line); border-radius: 8px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 13px var(--font-body); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--page); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+.controls input[type="search"] { flex: 1 1 180px; min-width: 0; max-width: 280px; padding: 8px 12px; border: 1px solid var(--pocket-line); border-radius: 8px; background: var(--page); color: var(--ink); font: 14px var(--font-body); }
+.chk { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 13px; cursor: pointer; }
+.sync { margin-left: auto; font-size: 12px; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--zap); outline-offset: 2px; }
+
+/* Binder */
+.binder { background: var(--binder); border: 1px solid var(--binder-edge); border-radius: 14px; padding: 18px;
+  box-shadow: 0 18px 40px -20px rgba(20,10,40,.6), inset 0 0 0 6px rgba(255,255,255,.03);
+  display: grid; grid-template-columns: 1fr 28px 1fr; gap: 0; }
+.spine { display: flex; flex-direction: column; justify-content: space-around; align-items: center; padding-block: 12%; }
+.spine span { width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d9d4e4, #6f6882 70%); box-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.page { background: var(--page); border-radius: 6px; padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.page-head { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pocket { background: var(--pocket); border: 1px solid var(--pocket-line); border-radius: 6px; padding: 8px; display: grid; gap: 8px; align-content: start; min-width: 0; position: relative; }
+.pocket.empty { min-height: 200px; border-style: dashed; background: transparent; }
+.art { position: relative; aspect-ratio: 63 / 88; max-width: 100%; border-radius: 4.5% / 3.2%; overflow: hidden; background: var(--pocket-line); }
+.art img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter .25s, opacity .25s; }
+.pocket:not(.have) .art img { filter: grayscale(1) contrast(.85); opacity: .38; }
+.art .noimg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 10px; color: var(--muted); font: 600 12px var(--font-display); }
+.pocket.have .art::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: color-dodge; opacity: 0; }
+.pocket.have[data-v="Foil"] .art::after { opacity: .35; background: linear-gradient(115deg, transparent 20%, rgba(255,240,150,.9) 38%, rgba(140,220,255,.9) 50%, rgba(255,150,230,.8) 62%, transparent 80%); background-size: 250% 250%; animation: shine 5s linear infinite; }
+.pocket.have[data-v^="Reverse"] .art::after { opacity: .28; background: repeating-linear-gradient(45deg, rgba(255,255,255,.7) 0 2px, transparent 2px 9px); }
+@keyframes shine { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .pocket.have[data-v="Foil"] .art::after { animation: none; } }
+
+.own { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--pocket-line); background: var(--page); color: var(--muted); cursor: pointer; display: grid; place-items: center; font-size: 18px; line-height: 1; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.own:hover { border-color: var(--ok); }
+.pocket.have .own { background: var(--ok); border-color: var(--ok); color: #fff; }
+.info { display: grid; gap: 3px; min-width: 0; }
+.nm { font: 600 14px/1.2 var(--font-display); overflow-wrap: anywhere; }
+.meta { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.meta .set { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.nt { font-size: 11px; color: var(--muted); line-height: 1.3; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.tag { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: var(--page); border: 1px solid var(--pocket-line); color: var(--ink); }
+.tag.v-Foil { border-color: var(--zap); }
+.tag.unv { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.liga { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--muted); }
+.liga:hover { color: var(--coin); border-color: var(--coin); }
+
+.nav { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.nav button { font: 600 14px var(--font-body); padding: 9px 16px; border-radius: 8px; border: 1px solid var(--pocket-line); background: var(--page); color: var(--ink); cursor: pointer; }
+.nav button:disabled { opacity: .4; cursor: default; }
+.nav .where { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 150px; text-align: center; }
+.nav select { padding: 8px; border-radius: 8px; border: 1px solid var(--pocket-line); background: var(--page); color: var(--ink); font: 13px var(--font-body); max-width: 100%; }
+.empty-state { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 40px 10px; }
+.printbar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; background: var(--pocket); border: 1px solid var(--pocket-line); border-radius: 10px; padding: 10px 12px; }
+.printbar[hidden] { display: none; }
+.printbar button { font: 600 14px var(--font-body); padding: 9px 16px; border-radius: 8px; border: 0; background: var(--zap); color: var(--zap-ink); cursor: pointer; }
+.printbar button:disabled { opacity: .55; cursor: progress; }
+.printbar select { padding: 8px; border-radius: 8px; border: 1px solid var(--pocket-line); background: var(--page); color: var(--ink); font: 13px var(--font-body); }
+.printbar span { color: var(--muted); font-size: 13px; }
+.note { color: var(--muted); font-size: 12px; max-width: 80ch; }
+.note a { color: inherit; }
+
+@media (max-width: 760px) {
+  .binder { grid-template-columns: 1fr; padding: 10px; }
+  .spine, .page.right { display: none; }
+  .page { padding: 10px; }
+  .grid { gap: 8px; }
+  .pocket { padding: 6px; }
+  .own { top: 10px; right: 10px; width: 30px; height: 30px; }
+  .sync { margin-left: 0; width: 100%; }
+}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1><span class="z">Zeraora</span> &amp; <span class="m">Meowth</span><br>Master Set PT-BR</h1>
+      <p class="sub">Cada bolso do binder é uma versão da carta: normal, foil, reverse foil e paralelas. Toque no círculo para marcar o que você já tem.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Pokémon">
+      <button id="p-all" data-p="all" aria-pressed="true">Todos</button>
+      <button id="p-z" data-p="Zeraora" aria-pressed="false">Zeraora</button>
+      <button id="p-m" data-p="Meowth" aria-pressed="false">Meowth</button>
+    </div>
+    <div class="seg" role="group" aria-label="Mostrar">
+      <button id="f-all" data-f="all" aria-pressed="true">Todas</button>
+      <button id="f-miss" data-f="miss" aria-pressed="false">Faltando</button>
+      <button id="f-have" data-f="have" aria-pressed="false">Tenho</button>
+    </div>
+    <input type="search" id="q" placeholder="Buscar nome ou coleção" aria-label="Buscar">
+
+    <span class="sync" id="sync">Carregando coleção…</span>
+  </div>
+
+  <div class="printbar" id="printbar" hidden>
+    <select id="pdfsize" aria-label="Tamanho na folha"><option value="9">Tamanho real · 9 por folha</option><option value="18">Compacto · 18 por folha</option></select>
+    <button id="pdf">Gerar folha A4 para imprimir</button>
+    <span id="pdfmsg">Cada carta sai com a versão (NORMAL, FOIL ou REVERSE), nome, número e coleção.</span>
+  </div>
+
+  <div class="binder" id="binder"></div>
+
+  <div class="nav">
+    <button id="prev" aria-label="Página anterior">← Anterior</button>
+    <span class="where" id="where"></span>
+    <button id="next" aria-label="Próxima página">Próxima →</button>
+    <select id="jump" aria-label="Ir para coleção"></select>
+  </div>
+
+  <p class="note">Primeiro as Zeraora, depois as Meowth, cada grupo em ordem de lançamento. Revisado em 15/11/2026. A lista de cartas foi conferida com Bulbapedia, pkmncards, Limitless e TCGdex. Todas as cartas daqui foram confirmadas em português, pelo banco de dados oficial Pokémon (pokemon.com/br) ou por ofertas em português na LigaPokémon. As versões (Normal, Foil, Reverse) foram conferidas com ninthpocket e TCGplayer. Na aba Faltando, o botão gera um PDF A4 com as cartas que faltam em tamanho real, para imprimir e colocar no lugar. O link "Liga" abre a página da carta na LigaPokémon. Use as setas do teclado para virar as páginas.</p>
+</div>
+
+<script>
+const CARDS = [{"id": "sm8-86", "poke": "Zeraora", "name": "Zeraora GX", "nameEn": "Zeraora GX", "num": "86", "numLabel": "86/214", "set": "Trovões Perdidos", "setId": "sm8", "setEn": "Lost Thunder", "date": "2018-11-02", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-GX%20(86/214)&ed=LOT&num=86", "img": "https://assets.tcgdex.net/en/sm/sm8/86/high.webp"}, {"id": "sm8-201", "poke": "Zeraora", "name": "Zeraora GX", "nameEn": "Zeraora GX", "num": "201", "numLabel": "201/214", "set": "Trovões Perdidos", "setId": "sm8", "setEn": "Lost Thunder", "date": "2018-11-02", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-GX%20(201/214)&ed=LOT&num=201", "img": "https://assets.tcgdex.net/en/sm/sm8/201/high.webp"}, {"id": "sm8-221", "poke": "Zeraora", "name": "Zeraora GX", "nameEn": "Zeraora GX", "num": "221", "numLabel": "221/214", "set": "Trovões Perdidos", "setId": "sm8", "setEn": "Lost Thunder", "date": "2018-11-02", "rarity": "Rare Secreta", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-GX%20(221/214)&ed=LOT&num=221", "img": "https://assets.tcgdex.net/en/sm/sm8/221/high.webp"}, {"id": "sm9-52", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "52", "numLabel": "52/181", "set": "União de Aliados", "setId": "sm9", "setEn": "Team Up", "date": "2019-01-31", "rarity": "Rara", "variants": ["Foil", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(52/181)&ed=TEU&num=52", "img": "https://assets.tcgdex.net/en/sm/sm9/52/high.webp"}, {"id": "sm10-60", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "60", "numLabel": "60/214", "set": "Elos Inquebráveis", "setId": "sm10", "setEn": "Unbroken Bonds", "date": "2019-05-03", "rarity": "Rara", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(60/214)&ed=UNB&num=60", "img": "https://assets.tcgdex.net/en/sm/sm10/60/high.webp"}, {"id": "swsh4-61", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "61", "numLabel": "61/185", "set": "Voltagem Vívida", "setId": "swsh4", "setEn": "Vivid Voltage", "date": "2020-11-13", "rarity": "Rara Holo", "variants": ["Foil", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(61/185)&ed=VIV&num=61", "img": "https://assets.tcgdex.net/en/swsh/swsh4/61/high.webp"}, {"id": "swsh6-53", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "53", "numLabel": "53/198", "set": "Reinado Arrepiante", "setId": "swsh6", "setEn": "Chilling Reign", "date": "2021-06-18", "rarity": "Rara Holo V", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(53/198)&ed=CRE&num=53", "img": "https://assets.tcgdex.net/en/swsh/swsh6/53/high.webp"}, {"id": "swsh6-165", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "165", "numLabel": "165/198", "set": "Reinado Arrepiante", "setId": "swsh6", "setEn": "Chilling Reign", "date": "2021-06-18", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(165/198)&ed=CRE&num=165", "img": "https://assets.tcgdex.net/en/swsh/swsh6/165/high.webp"}, {"id": "swsh6-166", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "166", "numLabel": "166/198", "set": "Reinado Arrepiante", "setId": "swsh6", "setEn": "Chilling Reign", "date": "2021-06-18", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(166/198)&ed=CRE&num=166", "img": "https://assets.tcgdex.net/en/swsh/swsh6/166/high.webp"}, {"id": "swsh8-102", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "102", "numLabel": "102/264", "set": "Golpe Fusão", "setId": "swsh8", "setEn": "Fusion Strike", "date": "2021-11-12", "rarity": "Rara", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(102/264)&ed=FST&num=102", "img": "https://assets.tcgdex.net/en/swsh/swsh8/102/high.webp"}, {"id": "bap22-05", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "05", "numLabel": "05/60", "set": "Academia de Batalha 2022", "setId": "bap22", "setEn": "Destined Rivals", "date": "2022-06-01", "rarity": "Rara", "variants": ["Normal"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora (05/60)&ed=BAP22&num=05", "note": "Carta do deck Academia de Batalha 2022 (reimpressão da Zeraora 102 de Golpe Fusão com a marca do deck Pikachu). Confirmada em português na Liga. Foto em inglês."}, {"id": "swshp-SWSH263", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "SWSH263", "numLabel": "SWSH263", "set": "ESES Promos", "setId": "swshp", "setEn": "SWSH Black Star Promos", "date": "2022-10-14", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(SWSH263/71)&ed=SSPR&num=SWSH263", "img": "https://assets.tcgdex.net/en/swsh/swshp/SWSH263/high.webp"}, {"id": "swshp-SWSH264", "poke": "Zeraora", "name": "Zeraora VMAX", "nameEn": "Zeraora VMAX", "num": "SWSH264", "numLabel": "SWSH264", "set": "ESES Promos", "setId": "swshp", "setEn": "SWSH Black Star Promos", "date": "2022-10-14", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VMAX%20(SWSH264/71)&ed=SSPR&num=SWSH264", "img": "https://assets.tcgdex.net/en/swsh/swshp/SWSH264/high.webp"}, {"id": "swshp-SWSH265", "poke": "Zeraora", "name": "Zeraora V-ASTRO", "nameEn": "Zeraora VSTAR", "num": "SWSH265", "numLabel": "SWSH265", "set": "ESES Promos", "setId": "swshp", "setEn": "SWSH Black Star Promos", "date": "2022-10-14", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VSTAR%20(SWSH265/71)&ed=SSPR&num=SWSH265", "img": "https://assets.tcgdex.net/en/swsh/swshp/SWSH265/high.webp"}, {"id": "swsh12-056", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "056", "numLabel": "056/195", "set": "Tempestade Prateada", "setId": "swsh12", "setEn": "Silver Tempest", "date": "2022-11-11", "rarity": "Rara", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(056/195)&ed=SIT&num=056", "img": "https://assets.tcgdex.net/en/swsh/swsh12/056/high.webp"}, {"id": "swsh12tg-TG16", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "TG16", "numLabel": "TG16", "set": "Tempestade Prateada Galeria de Treinador", "setId": "swsh12tg", "setEn": "Silver Tempest Trainer Gallery", "date": "2022-11-11", "rarity": "Rara Holo V", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(TG16/TG30)&ed=SITTG&num=TG16", "img": "https://assets.tcgdex.net/en/swsh/swsh12/TG16/high.webp"}, {"id": "swsh12.5-052", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "052", "numLabel": "052/159", "set": "Realeza Absoluta", "setId": "swsh12.5", "setEn": "Crown Zenith", "date": "2023-01-20", "rarity": "Rara", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(052/159)&ed=CRZ&num=052", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/052/high.webp"}, {"id": "swsh12.5-053", "poke": "Zeraora", "name": "Zeraora V", "nameEn": "Zeraora V", "num": "053", "numLabel": "053/159", "set": "Realeza Absoluta", "setId": "swsh12.5", "setEn": "Crown Zenith", "date": "2023-01-20", "rarity": "Rara Holo V", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-V%20(053/159)&ed=CRZ&num=053", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/053/high.webp"}, {"id": "swsh12.5-054", "poke": "Zeraora", "name": "Zeraora VMAX", "nameEn": "Zeraora VMAX", "num": "054", "numLabel": "054/159", "set": "Realeza Absoluta", "setId": "swsh12.5", "setEn": "Crown Zenith", "date": "2023-01-20", "rarity": "Rara Holo VMAX", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VMAX%20(054/159)&ed=CRZ&num=054", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/054/high.webp"}, {"id": "swsh12.5-055", "poke": "Zeraora", "name": "Zeraora V-ASTRO", "nameEn": "Zeraora VSTAR", "num": "055", "numLabel": "055/159", "set": "Realeza Absoluta", "setId": "swsh12.5", "setEn": "Crown Zenith", "date": "2023-01-20", "rarity": "Rara Holo VSTAR", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VSTAR%20(055/159)&ed=CRZ&num=055", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/055/high.webp"}, {"id": "swsh12.5gg-GG42", "poke": "Zeraora", "name": "Zeraora VMAX", "nameEn": "Zeraora VMAX", "num": "GG42", "numLabel": "GG42", "set": "Realeza Absoluta Galeria de Galar", "setId": "swsh12.5gg", "setEn": "Crown Zenith Galarian Gallery", "date": "2023-01-20", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VMAX%20(GG42/GG70)&ed=CZGG&num=GG42", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/GG42/high.webp"}, {"id": "swsh12.5gg-GG43", "poke": "Zeraora", "name": "Zeraora V-ASTRO", "nameEn": "Zeraora VSTAR", "num": "GG43", "numLabel": "GG43", "set": "Realeza Absoluta Galeria de Galar", "setId": "swsh12.5gg", "setEn": "Crown Zenith Galarian Gallery", "date": "2023-01-20", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora-VSTAR%20(GG43/GG70)&ed=CZGG&num=GG43", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/GG43/high.webp"}, {"id": "sv05-057", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "057", "numLabel": "057/162", "set": "Forças Temporais", "setId": "sv05", "setEn": "Temporal Forces", "date": "2024-03-22", "rarity": "Incomum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(057/162)&ed=TEF&num=057", "img": "https://assets.tcgdex.net/en/sv/sv05/057/high.webp"}, {"id": "sv07-055", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "055", "numLabel": "055/142", "set": "Coroa Estelar", "setId": "sv07", "setEn": "Stellar Crown", "date": "2024-09-13", "rarity": "Rara", "variants": ["Foil", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(055/142)&ed=SCR&num=055", "img": "https://assets.tcgdex.net/en/sv/sv07/055/high.webp"}, {"id": "sv07-151", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "151", "numLabel": "151/142", "set": "Coroa Estelar", "setId": "sv07", "setEn": "Stellar Crown", "date": "2024-09-13", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(151/142)&ed=SCR&num=151", "img": "https://assets.tcgdex.net/en/sv/sv07/151/high.webp"}, {"id": "sv10-078", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "078", "numLabel": "078/182", "set": "Rivais Predestinados", "setId": "sv10", "setEn": "Destined Rivals", "date": "2025-05-30", "rarity": "Rara", "variants": ["Foil", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(078/182)&ed=DRI&num=078", "img": "https://assets.tcgdex.net/en/sv/sv10/078/high.webp"}, {"id": "ppps9-078", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "078", "numLabel": "078", "set": "Prize Pack Play! Pokémon (Série 9)", "setId": "ppps9", "setEn": "Destined Rivals", "date": "2026-06-01", "rarity": "Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora (078/∞)&ed=PPPS9&num=078", "note": "Mesma carta de Rivais Predestinados, com carimbo Play! Pokémon. Distribuída em ligas e torneios.", "img": "https://assets.tcgdex.net/en/sv/sv10/078/high.webp"}, {"id": "me05-027", "poke": "Zeraora", "name": "Mega Zeraora ex", "nameEn": "Mega Zeraora ex", "num": "027", "numLabel": "027/084", "set": "Escuridão Absoluta", "setId": "me05", "setEn": "Pitch Black", "date": "2026-07-17", "rarity": "Rara Dupla", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Mega+Zeraora+ex%20(027/084)&ed=PBL&num=027", "img": "https://assets.tcgdex.net/en/me/me05/027/high.webp"}, {"id": "me05-098", "poke": "Zeraora", "name": "Mega Zeraora ex", "nameEn": "Mega Zeraora ex", "num": "098", "numLabel": "098/084", "set": "Escuridão Absoluta", "setId": "me05", "setEn": "Pitch Black", "date": "2026-07-17", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Mega+Zeraora+ex%20(098/084)&ed=PBL&num=098", "img": "https://assets.tcgdex.net/en/me/me05/098/high.webp"}, {"id": "me05-114", "poke": "Zeraora", "name": "Mega Zeraora ex", "nameEn": "Mega Zeraora ex", "num": "114", "numLabel": "114/084", "set": "Escuridão Absoluta", "setId": "me05", "setEn": "Pitch Black", "date": "2026-07-17", "rarity": "Ilustração Rara Especial", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Mega+Zeraora+ex%20(114/084)&ed=PBL&num=114", "img": "https://assets.tcgdex.net/en/me/me05/114/high.webp"}, {"id": "mep-089", "poke": "Zeraora", "name": "Mega Zeraora ex", "nameEn": "Mega Zeraora ex", "num": "089", "numLabel": "089", "set": "Promos Megaevolução", "setId": "mep", "setEn": "MEP Black Star Promos", "date": "2026-07-17", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Mega+Zeraora+ex%20(089/%E2%88%9E)&ed=MEP&num=089", "img": "https://assets.tcgdex.net/en/me/mep/089/high.webp"}, {"id": "30th-057", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "057", "numLabel": "057/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Comum", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(057/128)&ed=30C&num=057"}, {"id": "mep-103", "poke": "Zeraora", "name": "Zeraora", "nameEn": "Zeraora", "num": "103", "numLabel": "103", "set": "Promos Megaevolução", "setId": "mep", "setEn": "MEP Black Star Promos", "date": "2026-10-30", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Zeraora%20(103/%E2%88%9E)&ed=MEP&num=103", "note": "Promo da Celebração de 30 Anos: arte alternativa que vem no Baralho de Batalha Umbreon ex. Confirmada em português (Liga e banco de dados oficial).", "img": "https://assets.tcgdex.net/en/me/mep/103/high.webp"}, {"id": "base2-56", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "56", "numLabel": "56/64", "set": "Selva", "setId": "base2", "setEn": "Jungle", "date": "1999-06-16", "rarity": "Common", "variants": ["Normal"], "verified": true, "note": "Confirmada em português na Liga (várias ofertas PT).", "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(56/64)&ed=JU&num=56", "img": "https://assets.tcgdex.net/en/base/base2/56/high.webp"}, {"id": "ex7-46", "poke": "Meowth", "name": "Rocket's Meowth", "nameEn": "Rocket's Meowth", "num": "46", "numLabel": "46/109", "set": "EX Team Rocket Returns", "setId": "ex7", "setEn": "Team Rocket Returns", "date": "2004-11-01", "rarity": "Uncommon", "variants": ["Normal", "Reverse Foil"], "verified": true, "note": "Confirmada em português na Liga: cerca de 10 ofertas PT (cartas usadas), incluindo uma Reverse Foil em PT.", "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Rocket%27s+Meowth%20(46/109)&ed=TRR&num=46", "img": "https://assets.tcgdex.net/en/ex/ex7/46/high.webp"}, {"id": "hgss1-75", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "75", "numLabel": "75/123", "set": "HeartGold SoulSilver", "setId": "hgss1", "setEn": "HeartGold SoulSilver", "date": "2010-02-10", "rarity": "Common", "variants": ["Normal", "Reverse Foil"], "verified": true, "note": "Confirmada em português na Liga (várias ofertas PT).", "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(75/123)&ed=HS&num=75", "img": "https://assets.tcgdex.net/en/hgss/hgss1/75/high.webp"}, {"id": "bw3-102", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "102", "numLabel": "102/101", "set": "Vitórias Nobres", "setId": "bw3", "setEn": "Noble Victories", "date": "2011-11-16", "rarity": "Rare Secreta", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(102/101)&ed=NVI&num=102", "img": "https://assets.tcgdex.net/en/bw/bw3/102/high.webp"}, {"id": "bw4-80", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "80", "numLabel": "80/99", "set": "Próximos Destinos", "setId": "bw4", "setEn": "Next Destinies", "date": "2012-02-08", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(80/99)&ed=NXD&num=80", "img": "https://assets.tcgdex.net/en/bw/bw4/80/high.webp"}, {"id": "bw7-106", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "106", "numLabel": "106/149", "set": "Fronteiras Cruzadas", "setId": "bw7", "setEn": "Boundaries Crossed", "date": "2012-11-07", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(106/149)&ed=BCR&num=106", "img": "https://assets.tcgdex.net/en/bw/bw7/106/high.webp"}, {"id": "xy6-67", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "67", "numLabel": "67/108", "set": "Céus Estrondosos", "setId": "xy6", "setEn": "Roaring Skies", "date": "2015-05-06", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(67/108)&ed=ROS&num=67", "img": "https://assets.tcgdex.net/en/xy/xy6/67/high.webp"}, {"id": "xy7-61", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "61", "numLabel": "61/98", "set": "Origens Ancestrais", "setId": "xy7", "setEn": "Ancient Origins", "date": "2015-08-12", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(61/98)&ed=AOR&num=61", "img": "https://assets.tcgdex.net/en/xy/xy7/61/high.webp"}, {"id": "xy8-114", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "114", "numLabel": "114/162", "set": "Turbo Revolução", "setId": "xy8", "setEn": "BREAKthrough", "date": "2015-11-04", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(114/162)&ed=BKT&num=114", "img": "https://assets.tcgdex.net/en/xy/xy8/114/high.webp"}, {"id": "g1-53", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "53", "numLabel": "53/83", "set": "Gerações", "setId": "g1", "setEn": "Generations", "date": "2016-02-22", "rarity": "Common", "variants": ["Normal", "Reverse"], "verified": true, "note": "Confirmada em português na Liga (dezenas de ofertas PT). A reverse existe; na Liga só apareceu em inglês por enquanto.", "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(53/83)&ed=GEN&num=53", "img": "https://assets.tcgdex.net/en/xy/g1/53/high.webp"}, {"id": "xy10-74", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "74", "numLabel": "74/124", "set": "Fusão de Destinos", "setId": "xy10", "setEn": "Fates Collide", "date": "2016-05-02", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(74/124)&ed=FCO&num=74", "img": "https://assets.tcgdex.net/en/xy/xy10/74/high.webp"}, {"id": "xy11-88", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "88", "numLabel": "88/114", "set": "Cerco de Vapor", "setId": "xy11", "setEn": "Steam Siege", "date": "2016-08-03", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(88/114)&ed=STS&num=88", "img": "https://assets.tcgdex.net/en/xy/xy11/88/high.webp"}, {"id": "sm1-78", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "78", "numLabel": "78/149", "set": "Sol e Lua", "setId": "sm1", "setEn": "Sun & Moon", "date": "2017-02-03", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(78/149)&ed=SUM&num=78", "img": "https://assets.tcgdex.net/en/sm/sm1/78/high.webp"}, {"id": "smp-SM43", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "SM43", "numLabel": "SM43", "set": "Sol e Lua Promos", "setId": "smp", "setEn": "SM Black Star Promos", "date": "2017-02-03", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(SM43/250)&ed=SMP&num=SM43", "img": "https://assets.tcgdex.net/en/sm/smp/SM43/high.webp"}, {"id": "sm3-101", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "101", "numLabel": "101/147", "set": "Sombras Ardentes", "setId": "sm3", "setEn": "Burning Shadows", "date": "2017-08-04", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(101/147)&ed=BUS&num=101", "img": "https://assets.tcgdex.net/en/sm/sm3/101/high.webp"}, {"id": "sm8-118", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "118", "numLabel": "118/214", "set": "Trovões Perdidos", "setId": "sm8", "setEn": "Lost Thunder", "date": "2018-11-02", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(118/214)&ed=LOT&num=118", "img": "https://assets.tcgdex.net/en/sm/sm8/118/high.webp"}, {"id": "sm9-125", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "125", "numLabel": "125/181", "set": "União de Aliados", "setId": "sm9", "setEn": "Team Up", "date": "2019-01-31", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(125/181)&ed=TEU&num=125", "img": "https://assets.tcgdex.net/en/sm/sm9/125/high.webp"}, {"id": "sm10-147", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "147", "numLabel": "147/214", "set": "Elos Inquebráveis", "setId": "sm10", "setEn": "Unbroken Bonds", "date": "2019-05-03", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(147/214)&ed=UNB&num=147", "img": "https://assets.tcgdex.net/en/sm/sm10/147/high.webp"}, {"id": "sm12-128", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "128", "numLabel": "128/236", "set": "Eclipse Cósmico", "setId": "sm12", "setEn": "Cosmic Eclipse", "date": "2019-11-01", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(128/236)&ed=CEC&num=128", "img": "https://assets.tcgdex.net/en/sm/sm12/128/high.webp"}, {"id": "swshp-SWSH004", "poke": "Meowth", "name": "Meowth V", "nameEn": "Meowth V", "num": "SWSH004", "numLabel": "SWSH004", "set": "ESES Promos", "setId": "swshp", "setEn": "SWSH Black Star Promos", "date": "2019-11-15", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth-V%20(SWSH004/71)&ed=SSPR&num=SWSH004", "img": "https://assets.tcgdex.net/en/swsh/swshp/SWSH004/high.webp"}, {"id": "swshp-SWSH005", "poke": "Meowth", "name": "Meowth VMAX", "nameEn": "Meowth VMAX", "num": "SWSH005", "numLabel": "SWSH005", "set": "ESES Promos", "setId": "swshp", "setEn": "SWSH Black Star Promos", "date": "2019-11-15", "rarity": "Promo", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth-VMAX%20(SWSH005/71)&ed=SSPR&num=SWSH005", "img": "https://assets.tcgdex.net/en/swsh/swshp/SWSH005/high.webp"}, {"id": "swsh1-127", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "127", "numLabel": "127/202", "set": "Espada e Escudo", "setId": "swsh1", "setEn": "Sword & Shield", "date": "2020-02-07", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(127/202)&ed=SSH&num=127", "img": "https://assets.tcgdex.net/en/swsh/swsh1/127/high.webp"}, {"id": "swsh2-126", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "126", "numLabel": "126/192", "set": "Rixa Rebelde", "setId": "swsh2", "setEn": "Rebel Clash", "date": "2020-05-01", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(126/192)&ed=RCL&num=126", "img": "https://assets.tcgdex.net/en/swsh/swsh2/126/high.webp"}, {"id": "swsh4-112", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "112", "numLabel": "112/185", "set": "Voltagem Vívida", "setId": "swsh4", "setEn": "Vivid Voltage", "date": "2020-11-13", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(112/185)&ed=VIV&num=112", "img": "https://assets.tcgdex.net/en/swsh/swsh4/112/high.webp"}, {"id": "swsh4.5sv-SV086", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "SV086", "numLabel": "SV086", "set": "Destinos Brilhantes Cofre Brilhante", "setId": "swsh4.5sv", "setEn": "Shining Fates Shiny Vault", "date": "2021-02-19", "rarity": "Shiny rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(SV086/SV122)&ed=SFS&num=SV086", "img": "https://assets.tcgdex.net/en/swsh/swsh4.5/SV086/high.webp"}, {"id": "swsh8-180", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "180", "numLabel": "180/264", "set": "Golpe Fusão", "setId": "swsh8", "setEn": "Fusion Strike", "date": "2021-11-12", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(180/264)&ed=FST&num=180", "img": "https://assets.tcgdex.net/en/swsh/swsh8/180/high.webp"}, {"id": "swsh8-199", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "199", "numLabel": "199/264", "set": "Golpe Fusão", "setId": "swsh8", "setEn": "Fusion Strike", "date": "2021-11-12", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(199/264)&ed=FST&num=199", "img": "https://assets.tcgdex.net/en/swsh/swsh8/199/high.webp"}, {"id": "swsh12.5-084", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "084", "numLabel": "084/159", "set": "Realeza Absoluta", "setId": "swsh12.5", "setEn": "Crown Zenith", "date": "2023-01-20", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(084/159)&ed=CRZ&num=084", "img": "https://assets.tcgdex.net/en/swsh/swsh12.5/084/high.webp"}, {"id": "sv03.5-052", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "052", "numLabel": "052/165", "set": "151", "setId": "sv03.5", "setEn": "151", "date": "2023-09-22", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(052/165)&ed=MEW&num=052", "img": "https://assets.tcgdex.net/en/sv/sv03.5/052/high.webp"}, {"id": "sv06.5-048", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "048", "numLabel": "048/064", "set": "Fábulas Nebulosas", "setId": "sv06.5", "setEn": "Shrouded Fable", "date": "2024-08-02", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(048/064)&ed=SFA&num=048", "img": "https://assets.tcgdex.net/en/sv/sv06.5/048/high.webp"}, {"id": "sv10-149", "poke": "Meowth", "name": "Meowth da Equipe Rocket", "nameEn": "Team Rocket's Meowth", "num": "149", "numLabel": "149/182", "set": "Rivais Predestinados", "setId": "sv10", "setEn": "Destined Rivals", "date": "2025-05-30", "rarity": "Comum", "variants": ["Normal", "Reverse Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Team+Rocket%27s+Meowth%20(149/182)&ed=DRI&num=149", "img": "https://assets.tcgdex.net/en/sv/sv10/149/high.webp"}, {"id": "sv10-203", "poke": "Meowth", "name": "Meowth da Equipe Rocket", "nameEn": "Team Rocket's Meowth", "num": "203", "numLabel": "203/182", "set": "Rivais Predestinados", "setId": "sv10", "setEn": "Destined Rivals", "date": "2025-05-30", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Team+Rocket%27s+Meowth%20(203/182)&ed=DRI&num=203", "img": "https://assets.tcgdex.net/en/sv/sv10/203/high.webp"}, {"id": "me02-106", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "106", "numLabel": "106/094", "set": "Fogo Fantasmagórico", "setId": "me02", "setEn": "Phantasmal Flames", "date": "2025-11-14", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(106/094)&ed=PFL&num=106", "img": "https://assets.tcgdex.net/en/me/me02/106/high.webp"}, {"id": "me02.5-161", "poke": "Meowth", "name": "Meowth da Equipe Rocket", "nameEn": "Team Rocket's Meowth", "num": "161", "numLabel": "161/217", "set": "Heróis Excelsos", "setId": "me02.5", "setEn": "Ascended Heroes", "date": "2026-01-30", "rarity": "Comum", "variants": ["Normal", "Reverse Energia", "Reverse Equipe Rocket"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Team+Rocket%27s+Meowth%20(161/217)&ed=ASC&num=161", "img": "https://assets.tcgdex.net/en/me/me02.5/161/high.webp"}, {"id": "me03-062", "poke": "Meowth", "name": "Meowth ex", "nameEn": "Meowth ex", "num": "062", "numLabel": "062/088", "set": "Equilíbrio Perfeito", "setId": "me03", "setEn": "Perfect Order", "date": "2026-03-27", "rarity": "Rara Dupla", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth+ex%20(062/088)&ed=POR&num=062", "img": "https://assets.tcgdex.net/en/me/me03/062/high.webp"}, {"id": "me03-107", "poke": "Meowth", "name": "Meowth ex", "nameEn": "Meowth ex", "num": "107", "numLabel": "107/088", "set": "Equilíbrio Perfeito", "setId": "me03", "setEn": "Perfect Order", "date": "2026-03-27", "rarity": "Ultra Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth+ex%20(107/088)&ed=POR&num=107", "img": "https://assets.tcgdex.net/en/me/me03/107/high.webp"}, {"id": "me03-121", "poke": "Meowth", "name": "Meowth ex", "nameEn": "Meowth ex", "num": "121", "numLabel": "121/088", "set": "Equilíbrio Perfeito", "setId": "me03", "setEn": "Perfect Order", "date": "2026-03-27", "rarity": "Ilustração Rara Especial", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth+ex%20(121/088)&ed=POR&num=121", "img": "https://assets.tcgdex.net/en/me/me03/121/high.webp"}, {"id": "ppps9-062", "poke": "Meowth", "name": "Meowth ex", "nameEn": "Meowth ex", "num": "062", "numLabel": "062", "set": "Prize Pack Play! Pokémon (Série 9)", "setId": "ppps9", "setEn": "Perfect Order", "date": "2026-06-01", "rarity": "Rara Dupla", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth+ex (062/∞)&ed=PPPS9&num=062", "note": "Versão com carimbo Play! Pokémon. Confirmada em português na Liga (várias ofertas PT, Foil).", "img": "https://assets.tcgdex.net/en/me/me03/062/high.webp"}, {"id": "30th-089", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "089", "numLabel": "089/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Comum", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(089/128)&ed=30C&num=089"}, {"id": "30th-101", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "101", "numLabel": "101/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Comum", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(101/128)&ed=30C&num=101"}, {"id": "30th-113", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "113", "numLabel": "113/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Comum", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(113/128)&ed=30C&num=113"}, {"id": "30th-139", "poke": "Meowth", "name": "Meowth de Alola", "nameEn": "Alolan Meowth", "num": "139", "numLabel": "139/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Alolan+Meowth%20(139/128)&ed=30C&num=139"}, {"id": "30th-141", "poke": "Meowth", "name": "Meowth de Galar", "nameEn": "Galarian Meowth", "num": "141", "numLabel": "141/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Galarian+Meowth%20(141/128)&ed=30C&num=141"}, {"id": "30th-144", "poke": "Meowth", "name": "Meowth", "nameEn": "Meowth", "num": "144", "numLabel": "144/128", "set": "Celebração de 30 Anos", "setId": "30th", "setEn": "30th Celebration", "date": "2026-09-16", "rarity": "Ilustração Rara", "variants": ["Foil"], "verified": true, "liga": "https://www.ligapokemon.com.br/?view=cards/card&card=Meowth%20(144/128)&ed=30C&num=144"}];
+const LIGA = "https://www.ligapokemon.com.br/?view=cards/search&card=";
+const SLOTS = [];
+for (const c of CARDS) for (const v of c.variants) SLOTS.push({ key: c.id + "|" + v, v, c });
+
+let owned = {};
+let view = { p: "all", f: "all", q: "", unv: true, page: 0 };
+try { owned = JSON.parse(localStorage.getItem("zm-owned") || "{}"); } catch (e) {}
+try { Object.assign(view, JSON.parse(localStorage.getItem("zm-view") || "{}")); } catch (e) {}
+
+const $ = (id) => document.getElementById(id);
+const perPage = () => (matchMedia("(max-width: 760px)").matches ? 4 : 8);
+
+function filtered() {
+  const q = view.q.trim().toLowerCase();
+  return SLOTS.filter(({ key, c }) =>
+    (view.unv || c.verified) &&
+    (view.p === "all" || c.poke === view.p) &&
+    (view.f === "all" || (view.f === "have") === !!owned[key]) &&
+    (!q || (c.name + " " + c.nameEn + " " + c.set + " " + c.setEn + " " + c.numLabel).toLowerCase().includes(q)));
+}
+
+function esc(s) { return String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch])); }
+
+function pocket(s) {
+  if (!s) return '<div class="pocket empty" aria-hidden="true"></div>';
+  const { c, v, key } = s, have = !!owned[key];
+  const ligaName = (c.verified ? c.name : c.nameEn) + " (" + c.numLabel + ")";
+  return `<div class="pocket${have ? " have" : ""}" data-v="${esc(v)}">
+    <div class="art">${c.img ? `<img src="${esc(c.img)}" alt="${esc(c.name)} ${esc(c.numLabel)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'noimg',innerHTML:this.alt}))">` : `<div class="noimg">${esc(c.name)}<br>${esc(c.numLabel)}</div>`}</div>
+    <button class="own" data-key="${esc(key)}" aria-pressed="${have}" aria-label="${have ? "Tenho" : "Não tenho"}: ${esc(c.name)} ${esc(c.numLabel)} ${esc(v)}">${have ? "✓" : "+"}</button>
+    <div class="info">
+      <div class="nm">${esc(c.name)}</div>
+      <div class="meta"><span class="set" title="${esc(c.set)}">${esc(c.set)}</span><span>${esc(c.numLabel)}</span></div>
+      ${c.note ? `<div class="nt">${esc(c.note)}</div>` : ""}
+      <div class="tags"><span class="tag v-${esc(v.split(" ")[0])}">${esc(v)}</span>${c.verified ? "" : '<span class="tag unv">a confirmar</span>'}
+        <a class="liga" href="${esc(c.liga ? c.liga.replace(/ /g, "%20").replace(/∞/g, "%E2%88%9E") : LIGA + encodeURIComponent(ligaName))}" target="_blank" rel="noopener">Liga ↗</a></div>
+    </div></div>`;
+}
+
+function render() {
+  const list = filtered(), pp = perPage(), half = 4;
+  const pages = Math.max(1, Math.ceil(list.length / pp));
+  view.page = Math.min(Math.max(0, view.page), pages - 1);
+  const start = view.page * pp;
+  const pageHtml = (from, side, n) => {
+    const items = [];
+    for (let i = 0; i < half; i++) items.push(pocket(list[from + i]));
+    return `<section class="page ${side}"><div class="page-head"><span>Página ${n}</span><span>${list[from] ? esc(list[from].c.set) : ""}</span></div><div class="grid">${items.join("")}</div></section>`;
+  };
+  if (!list.length) {
+    $("binder").innerHTML = `<section class="page"><div class="empty-state">${view.f === "have" ? "Nenhuma carta marcada ainda neste filtro." : view.f === "miss" ? "Nada faltando aqui. Coleção completa!" : "Nenhuma carta encontrada."}</div></section>`;
+  } else if (pp === 4) {
+    $("binder").innerHTML = pageHtml(start, "left", view.page + 1);
+  } else {
+    $("binder").innerHTML = pageHtml(start, "left", view.page * 2 + 1) + '<div class="spine"><span></span><span></span><span></span></div>' + pageHtml(start + 4, "right", view.page * 2 + 2);
+  }
+  $("where").textContent = `${pp === 4 ? "Página" : "Folha"} ${view.page + 1} de ${pages} · ${list.length} bolsos`;
+  $("prev").disabled = view.page === 0;
+  $("next").disabled = view.page >= pages - 1;
+
+  // jump-to-set menu
+  const seen = new Map();
+  list.forEach((s, i) => { const k = s.c.poke + " · " + s.c.set; if (!seen.has(k)) seen.set(k, i); });
+  $("jump").innerHTML = '<option value="">Ir para coleção…</option>' + [...seen].map(([k, i]) => `<option value="${i}">${esc(k)}</option>`).join("");
+
+  // stats
+  const base = SLOTS.filter((s) => view.unv || s.c.verified);
+  const stat = (label, cls, arr) => {
+    const h = arr.filter((s) => owned[s.key]).length, pct = arr.length ? Math.round((h / arr.length) * 100) : 0;
+    return `<div class="stat ${cls}"><span class="lbl">${label}</span><span class="val">${h}<small> / ${arr.length} · ${pct}%</small></span><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+  };
+  $("stats").innerHTML = stat("Total", "", base) + stat("Zeraora", "z", base.filter((s) => s.c.poke === "Zeraora")) + stat("Meowth", "m", base.filter((s) => s.c.poke === "Meowth"));
+
+  document.querySelectorAll("[data-p]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.p === view.p));
+  document.querySelectorAll("[data-f]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.f === view.f));
+
+  $("printbar").hidden = view.f !== "miss" || !list.length;
+  $("pdf").textContent = `Gerar folha A4 (${list.length} carta${list.length === 1 ? "" : "s"})`;
+  if ($("q").value !== view.q) $("q").value = view.q;
+  try { localStorage.setItem("zm-view", JSON.stringify(view)); } catch (e) {}
+}
+
+/* ---------- persistence: shared db when available, browser fallback ---------- */
+let docRef = null, writing = Promise.resolve(), pendingWrite = false;
+function setSync(t) { $("sync").textContent = t; }
+function saveLocal() { try { localStorage.setItem("zm-owned", JSON.stringify(owned)); } catch (e) {} }
+function persist() {
+  saveLocal();
+  if (!docRef) return;
+  if (pendingWrite) return;
+  pendingWrite = true;
+  writing = writing.then(() => new Promise((r) => setTimeout(r, 400))).then(async () => {
+    pendingWrite = false;
+    setSync("Salvando…");
+    try { await docRef.set({ owned: { ...owned }, updated: new Date().toISOString() }); setSync("Salvo na nuvem ✓"); }
+    catch (e) { setSync(e && e.code === "invalid_argument" ? "Somente leitura: você não pode editar esta coleção." : "Não foi possível salvar agora. Suas marcações estão guardadas neste navegador."); }
+  });
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".own");
+  if (b) {
+    const k = b.dataset.key;
+    if (owned[k]) delete owned[k]; else owned[k] = true;
+    render(); persist(); return;
+  }
+  const p = e.target.closest("[data-p]"); if (p) { view.p = p.dataset.p; view.page = 0; render(); return; }
+  const f = e.target.closest("[data-f]"); if (f) { view.f = f.dataset.f; view.page = 0; render(); return; }
+});
+$("prev").onclick = () => { view.page--; render(); };
+$("next").onclick = () => { view.page++; render(); };
+$("q").oninput = (e) => { view.q = e.target.value; view.page = 0; render(); };
+
+$("jump").onchange = (e) => { if (e.target.value !== "") { view.page = Math.floor(+e.target.value / perPage()); render(); } };
+document.addEventListener("keydown", (e) => {
+  if (e.target.matches("input, select, textarea")) return;
+  if (e.key === "ArrowLeft" && !$("prev").disabled) { view.page--; render(); }
+  if (e.key === "ArrowRight" && !$("next").disabled) { view.page++; render(); }
+});
+let lastPP = perPage();
+addEventListener("resize", () => { const pp = perPage(); if (pp !== lastPP) { view.page = Math.floor((view.page * lastPP) / pp); lastPP = pp; render(); } });
+
+/* ---------- A4 sheet of missing cards (PDF) ---------- */
+let jsPdfLoad = null;
+function loadJsPdf() {
+  if (window.jspdf) return Promise.resolve();
+  if (!jsPdfLoad) jsPdfLoad = new Promise((ok, bad) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload = ok; s.onerror = () => { jsPdfLoad = null; bad(new Error("load")); };
+    document.head.appendChild(s);
+  });
+  return jsPdfLoad;
+}
+function imgToJpeg(src) {
+  return new Promise((ok) => {
+    const im = new Image();
+    im.crossOrigin = "anonymous";
+    im.onload = () => {
+      const cv = document.createElement("canvas");
+      cv.width = 630; cv.height = 880; // 63 x 88 mm at ~254 dpi
+      const g = cv.getContext("2d");
+      g.fillStyle = "#fff"; g.fillRect(0, 0, cv.width, cv.height);
+      const r = Math.max(cv.width / im.naturalWidth, cv.height / im.naturalHeight);
+      const w = im.naturalWidth * r, h = im.naturalHeight * r;
+      g.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h);
+      try { ok(cv.toDataURL("image/jpeg", 0.9)); } catch (e) { ok(null); }
+    };
+    im.onerror = () => ok(null);
+    im.src = src;
+  });
+}
+const latin1 = (s) => String(s).replace(/δ/g, "delta").replace(/∞/g, "").replace(/[^\x20-\xFF]/g, "");
+async function makePdf() {
+  const list = filtered();
+  if (!list.length) return;
+  const btn = $("pdf"), msg = $("pdfmsg");
+  const compact = $("pdfsize").value === "18";
+  btn.disabled = true; msg.textContent = "Montando as folhas…";
+  try {
+    await loadJsPdf();
+    // Real size: A4 portrait, 3 x 3, cards 63 x 88 mm.
+    // Compact: A4 landscape, 6 x 3, cards at 65% (41 x 57 mm).
+    const L = compact
+      ? { orient: "landscape", W: 297, H: 210, cols: 6, rows: 3, CW: 41, CH: 57.3, CAP: 7, GX: 3, GY: 1.5, f1: 6.6, f2: 5.6, tag: 5.4 }
+      : { orient: "portrait", W: 210, H: 297, cols: 3, rows: 3, CW: 63, CH: 88, CAP: 8, GX: 4, GY: 0.6, f1: 8.5, f2: 7, tag: 7 };
+    const per = L.cols * L.rows;
+    const doc = new window.jspdf.jsPDF({ unit: "mm", format: "a4", orientation: L.orient });
+    const x0 = (L.W - (L.cols * L.CW + (L.cols - 1) * L.GX)) / 2;
+    const y0 = (L.H - (L.rows * (L.CH + L.CAP) + (L.rows - 1) * L.GY)) / 2;
+    const tagColor = (v) => /^Foil/i.test(v) ? [242, 194, 48] : /^Reverse/i.test(v) ? [120, 170, 235] : [215, 215, 215];
+    for (let i = 0; i < list.length; i++) {
+      const k = i % per;
+      if (i && !k) doc.addPage("a4", L.orient);
+      msg.textContent = `Montando as folhas… ${i + 1} de ${list.length}`;
+      const { c, v } = list[i];
+      const x = x0 + (k % L.cols) * (L.CW + L.GX), y = y0 + Math.floor(k / L.cols) * (L.CH + L.CAP + L.GY);
+      const data = c.img ? await imgToJpeg(c.img) : null;
+      if (data) doc.addImage(data, "JPEG", x, y, L.CW, L.CH);
+      else {
+        doc.setDrawColor(150); doc.setLineDashPattern([2, 2], 0); doc.roundedRect(x, y, L.CW, L.CH, 3, 3); doc.setLineDashPattern([], 0);
+        doc.setFontSize(L.f1 + 2); doc.text(latin1(c.name), x + L.CW / 2, y + L.CH / 2, { align: "center" });
+      }
+      doc.setDrawColor(200); doc.setLineWidth(0.2); doc.rect(x, y, L.CW, L.CH); // cutting guide
+      // version tag (NORMAL / FOIL / REVERSE ...) on the caption line
+      const tag = latin1(v).toUpperCase();
+      doc.setFont("helvetica", "bold"); doc.setFontSize(L.tag);
+      const tw = doc.getTextWidth(tag) + 2.4, th = L.tag * 0.42 + 1.2, ty = y + L.CH + 0.7;
+      doc.setFillColor(...tagColor(v)); doc.roundedRect(x, ty, tw, th, 0.8, 0.8, "F");
+      doc.setTextColor(20); doc.text(tag, x + 1.2, ty + th - 1.05);
+      doc.setFontSize(L.f1);
+      doc.text(doc.splitTextToSize(latin1(c.name) + " - " + latin1(c.numLabel), Math.max(5, L.CW - tw - 1.5))[0], x + tw + 1.5, ty + th - 1.05);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(L.f2); doc.setTextColor(90);
+      doc.text(doc.splitTextToSize(latin1(c.set), L.CW)[0], x, ty + th + L.f2 * 0.36);
+    }
+    const blob = doc.output("blob");
+    const name = "faltantes-" + (view.p === "all" ? "zeraora-meowth" : view.p.toLowerCase()) + (compact ? "-compacto" : "") + ".pdf";
+    const dl = null;
+    const tip = compact ? "Imprima em A4, escala 100%." : "Imprima em A4, escala 100% (tamanho real).";
+    if (dl) {
+      try { await dl.save({ filename: name, data: blob }); msg.textContent = "Pronto! " + tip; }
+      catch (e) { msg.textContent = e && e.code === "declined" ? "Download cancelado." : "Não consegui salvar o arquivo aqui."; }
+    } else {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      msg.textContent = "PDF gerado. " + tip;
+    }
+  } catch (e) {
+    msg.textContent = "Não consegui gerar o PDF agora. Tente de novo em instantes.";
+  } finally { btn.disabled = false; }
+}
+$("pdf").onclick = makePdf;
+
+render();
+
+setSync("Salvo neste navegador");
+</script>
+
+</body></html>
+</body>
+</html>
